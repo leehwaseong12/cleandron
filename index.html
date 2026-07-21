@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>클린드론솔루션 | 문화재·특수현장 전문 드론청소</title>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.css">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#FFFFFF;
+    --bg-2:#F5F7F9;
+    --ink:#101820;
+    --ink-dim:#5B6670;
+    --line:#E3E7EB;
+    --navy:#0E3A53;
+    --blue:#1D6FA5;
+    --blue-pale:#EAF2F7;
+    --accent:#C97A2B;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Pretendard Variable','Pretendard',sans-serif;
+    line-height:1.6;
+    overflow-x:hidden;
+    -webkit-font-smoothing:antialiased;
+  }
+  .mono{font-family:'IBM Plex Mono',monospace;}
+  a{color:inherit; text-decoration:none;}
+  img{max-width:100%; display:block;}
+  .wrap{max-width:1180px; margin:0 auto; padding:0 32px;}
+  @media(max-width:640px){.wrap{padding:0 20px;}}
+
+  /* ---------- HEADER ---------- */
+  header{
+    position:fixed; top:0; left:0; right:0; z-index:100;
+    background:rgba(255,255,255,0.92);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav{display:flex; align-items:center; justify-content:space-between; padding:18px 32px;}
+  .brand{font-weight:800; font-size:18px; letter-spacing:-0.01em; display:flex; align-items:center; gap:8px;}
+  .brand-logo-slot{
+    width:26px; height:26px; border-radius:4px; overflow:hidden; flex:0 0 auto;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .brand-logo-slot img{width:100%; height:100%; object-fit:contain; display:block;}
+  .brand .dot{width:8px; height:8px; border-radius:2px; background:var(--blue); display:inline-block;}
+  .navlinks{display:flex; gap:36px; font-size:14.5px; color:var(--ink-dim); font-weight:500;}
+  .navlinks a:hover{color:var(--ink);}
+  .nav-cta{
+    background:var(--navy); color:#fff; padding:10px 20px; border-radius:4px;
+    font-size:14px; font-weight:600;
+  }
+  .nav-cta:hover{background:var(--blue);}
+  @media(max-width:820px){.navlinks{display:none;}}
+
+  /* ---------- HERO (video slider) ---------- */
+  .hero{
+    position:relative; min-height:92svh; display:flex; align-items:flex-end;
+    overflow:hidden; background:var(--navy);
+  }
+  .hero-media{position:absolute; inset:0; z-index:0;}
+  .hero-slide{
+    position:absolute; inset:0; opacity:0; transition:opacity 1.1s ease;
+  }
+  .hero-slide.active{opacity:1;}
+  .hero-slide video{
+    position:absolute; inset:0; width:100%; height:100%; object-fit:cover; z-index:1;
+  }
+  .slide-fallback{
+    position:absolute; inset:0; width:100%; height:100%; object-fit:cover; z-index:0;
+    background:
+      linear-gradient(135deg, rgba(29,111,165,0.55), rgba(14,58,83,0.85)),
+      repeating-linear-gradient(120deg, rgba(255,255,255,0.05) 0 2px, transparent 2px 34px);
+    display:flex; align-items:center; justify-content:center;
+  }
+  .slide-fallback span{
+    font-family:'IBM Plex Mono',monospace; font-size:13px; color:rgba(255,255,255,0.55);
+    letter-spacing:0.05em; border:1px dashed rgba(255,255,255,0.35); padding:8px 16px; border-radius:4px;
+  }
+  .hero-overlay{
+    position:absolute; inset:0; z-index:1;
+    background:linear-gradient(0deg, rgba(10,26,38,0.92) 0%, rgba(10,26,38,0.55) 45%, rgba(10,26,38,0.35) 100%);
+  }
+  .hero-inner{position:relative; z-index:2; max-width:720px; padding:0 32px 72px; width:100%;}
+  @media(max-width:640px){.hero-inner{padding:0 20px 56px;}}
+  .eyebrow{
+    display:inline-flex; align-items:center; gap:8px;
+    font-family:'IBM Plex Mono',monospace; font-size:12.5px; letter-spacing:0.04em;
+    color:#EAF2F7; background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.25); padding:6px 12px;
+    border-radius:4px; margin-bottom:26px; font-weight:500;
+  }
+  .hero h1{
+    font-size:clamp(30px,4.4vw,50px); font-weight:800; line-height:1.32; letter-spacing:-0.02em;
+    margin-bottom:20px; color:#fff;
+  }
+  .hero h1 em{font-style:normal; color:#8FC1E0;}
+  .hero p{font-size:16px; color:#D6E3EA; max-width:520px; margin-bottom:32px;}
+  .btn-row{display:flex; gap:14px; flex-wrap:wrap; margin-bottom:44px;}
+  .btn{
+    padding:14px 26px; font-size:15px; font-weight:600; border-radius:4px; cursor:pointer;
+    border:1px solid transparent; transition:all .15s;
+  }
+  .btn-primary{background:#fff; color:var(--navy);}
+  .btn-primary:hover{background:#EAF2F7;}
+  .btn-ghost{border-color:rgba(255,255,255,0.5); color:#fff; background:transparent;}
+  .btn-ghost:hover{border-color:#fff; background:rgba(255,255,255,0.08);}
+
+  .stat-row{display:grid; grid-template-columns:repeat(3,1fr); gap:0; border-top:1px solid rgba(255,255,255,0.2); padding-top:28px;}
+  @media(max-width:760px){.stat-row{grid-template-columns:repeat(1,1fr); gap:20px;}}
+  .stat-row div{padding-right:24px;}
+  .stat-num{font-family:'IBM Plex Mono',monospace; font-size:26px; font-weight:600; color:#fff;}
+  .stat-label{font-size:12.5px; color:#B9CCD9; margin-top:6px;}
+
+  /* slide controls */
+  .hero-controls{
+    position:absolute; z-index:3; right:32px; bottom:32px;
+    display:flex; align-items:center; gap:14px;
+  }
+  @media(max-width:640px){.hero-controls{right:20px; bottom:20px;}}
+  .hero-dots{display:flex; gap:8px;}
+  .hero-dot{
+    width:22px; height:3px; background:rgba(255,255,255,0.35); border:none; cursor:pointer; padding:0; border-radius:2px;
+    transition:background .2s;
+  }
+  .hero-dot.active{background:#fff;}
+  .hero-arrows{display:flex; gap:8px;}
+  .hero-arrow{
+    width:34px; height:34px; border-radius:50%; border:1px solid rgba(255,255,255,0.4); background:rgba(255,255,255,0.08);
+    color:#fff; cursor:pointer; display:flex; align-items:center; justify-content:center;
+  }
+  .hero-arrow:hover{background:rgba(255,255,255,0.2);}
+
+  /* ---------- SECTION SHARED ---------- */
+  section{padding:100px 0;}
+  .section-head{max-width:620px; margin-bottom:52px;}
+  .eyebrow-sm{font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:0.08em; color:var(--blue); margin-bottom:12px; text-transform:uppercase; font-weight:600;}
+  .section-head h2{font-size:clamp(24px,2.8vw,34px); font-weight:800; line-height:1.4; letter-spacing:-0.01em;}
+  .section-head p{color:var(--ink-dim); margin-top:14px; font-size:15.5px;}
+
+  /* ---------- DIFFERENTIATORS ---------- */
+  .diff-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--line); border:1px solid var(--line); border-radius:8px; overflow:hidden;}
+  @media(max-width:860px){.diff-grid{grid-template-columns:1fr;}}
+  .diff-card{background:#fff; padding:34px 30px;}
+  .diff-num{display:inline-flex; align-items:center; justify-content:center; width:28px; height:28px; border-radius:6px; background:var(--blue-pale); color:var(--navy); font-family:'IBM Plex Mono',monospace; font-size:12px; font-weight:600; margin-bottom:20px;}
+  .diff-card h3{font-size:18px; margin-bottom:10px; font-weight:700;}
+  .diff-card p{color:var(--ink-dim); font-size:14.3px;}
+
+  /* ---------- PORTFOLIO ---------- */
+  .portfolio{background:var(--bg-2); border-top:1px solid var(--line); border-bottom:1px solid var(--line);}
+  .case-card{
+    display:grid; grid-template-columns:0.9fr 1.1fr; border:1px solid var(--line); border-radius:8px; overflow:hidden;
+    background:#fff;
+  }
+  @media(max-width:860px){.case-card{grid-template-columns:1fr;}}
+  .case-visual{
+    position:relative; background:var(--navy);
+    min-height:300px; display:flex; align-items:flex-end; padding:28px;
+  }
+  .case-visual::before{
+    content:''; position:absolute; inset:0;
+    background-image:radial-gradient(circle at 30% 30%, rgba(255,255,255,0.08), transparent 55%);
+  }
+  .case-visual .cv-label{position:relative; font-family:'IBM Plex Mono',monospace; font-size:12px; color:#AFC9DA; letter-spacing:0.05em;}
+  .case-body{padding:40px;}
+  @media(max-width:640px){.case-body{padding:28px 24px;}}
+  .case-tagline{font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--blue); letter-spacing:0.04em; margin-bottom:14px; font-weight:600;}
+  .case-body h3{font-size:23px; margin-bottom:14px; line-height:1.4; font-weight:800;}
+  .case-body p{color:var(--ink-dim); font-size:15px; margin-bottom:24px;}
+  .case-meta{display:grid; grid-template-columns:repeat(2,1fr); gap:18px; border-top:1px solid var(--line); padding-top:22px;}
+  .case-meta div b{display:block; font-family:'IBM Plex Mono',monospace; font-size:11.5px; color:var(--ink-dim); font-weight:400; margin-bottom:6px; text-transform:uppercase;}
+  .case-meta div span{font-size:14.5px; font-weight:700;}
+
+  .capability-strip{margin-top:28px; padding-top:26px; border-top:1px solid var(--line);}
+  .capability-label{display:block; font-size:13.5px; color:var(--ink-dim); margin-bottom:14px;}
+  .capability-tags{display:flex; flex-wrap:wrap; gap:10px;}
+  .cap-tag{
+    font-size:13.5px; font-weight:600; color:var(--navy); background:var(--blue-pale);
+    border:1px solid #D3E4EE; padding:8px 16px; border-radius:999px;
+  }
+
+  /* ---------- SERVICES (tabbed showcase) ---------- */
+  .svc-tabs{
+    display:flex; justify-content:center; gap:56px; flex-wrap:wrap; margin-bottom:56px;
+  }
+  @media(max-width:640px){.svc-tabs{gap:28px;}}
+  .svc-tab{
+    background:none; border:none; cursor:pointer; display:flex; flex-direction:column; align-items:center; gap:14px;
+    font-family:inherit; opacity:0.55; transition:opacity .2s;
+  }
+  .svc-tab:hover{opacity:0.85;}
+  .svc-tab.active{opacity:1;}
+  .svc-tab-icon{
+    width:88px; height:88px; border-radius:50%; border:1px solid var(--line); background:#fff;
+    display:flex; align-items:center; justify-content:center; transition:border-color .2s, box-shadow .2s;
+  }
+  .svc-tab-icon svg{width:34px; height:34px; color:var(--ink-dim); transition:color .2s;}
+  .svc-tab.active .svc-tab-icon{border-color:var(--blue); box-shadow:0 6px 18px rgba(29,111,165,0.18);}
+  .svc-tab.active .svc-tab-icon svg{color:var(--blue);}
+  .svc-tab-label{font-size:14.5px; font-weight:700; color:var(--ink);}
+
+  .svc-showcase{position:relative; display:flex; align-items:center; gap:20px;}
+  @media(max-width:760px){.svc-showcase{flex-direction:column;}}
+  .svc-arrow{
+    flex:0 0 auto; width:42px; height:42px; border-radius:50%; border:1px solid var(--line); background:#fff;
+    color:var(--ink); font-size:20px; cursor:pointer; display:flex; align-items:center; justify-content:center;
+  }
+  .svc-arrow:hover{border-color:var(--blue); color:var(--blue);}
+  @media(max-width:760px){.svc-arrow{order:3;}}
+
+  .svc-panel-wrap{position:relative; flex:1; min-height:420px;}
+  @media(max-width:760px){.svc-panel-wrap{min-height:0;}}
+  .svc-panel{
+    display:none; grid-template-columns:1.1fr 1fr; gap:56px; align-items:center;
+  }
+  .svc-panel.active{display:grid;}
+  @media(max-width:760px){.svc-panel.active{display:flex; flex-direction:column;}}
+  .svc-photo{
+    aspect-ratio:4/3; border-radius:10px; overflow:hidden; background:var(--bg-2);
+    position:relative;
+  }
+  .svc-photo img{width:100%; height:100%; object-fit:cover;}
+  .svc-photo.no-img{
+    background:linear-gradient(135deg, var(--blue-pale), var(--bg-2));
+    display:flex; align-items:center; justify-content:center;
+  }
+  .svc-photo.no-img img{display:none;}
+  .svc-photo.no-img::after{
+    content:'이미지 준비중'; font-family:'IBM Plex Mono',monospace; font-size:12.5px; color:var(--ink-dim);
+  }
+  .svc-text h3{font-size:26px; font-weight:800; margin-bottom:18px;}
+  .svc-text p{color:var(--ink-dim); font-size:15px; line-height:1.75; margin-bottom:22px;}
+  .svc-tags{display:flex; gap:14px; flex-wrap:wrap;}
+  .svc-tags span{font-size:14px; font-weight:600; color:var(--blue);}
+
+  /* ---------- SAFETY (banner + care cards) ---------- */
+  .care-banner{
+    display:flex; align-items:center; gap:40px; background:var(--bg-2); border:1px solid var(--line);
+    border-radius:10px; padding:44px 48px; margin-bottom:64px; overflow:hidden;
+  }
+  @media(max-width:860px){.care-banner{flex-direction:column; padding:32px 28px;}}
+  .care-banner-text{flex:1;}
+  .care-banner-text h3{font-size:clamp(19px,2.2vw,24px); font-weight:800; line-height:1.5; margin-bottom:16px;}
+  .care-banner-text h3 u{text-decoration-color:var(--blue); text-decoration-thickness:2px; text-underline-offset:4px; color:var(--navy);}
+  .care-banner-text p{color:var(--ink-dim); font-size:14.5px; line-height:1.75; margin-bottom:22px; max-width:480px;}
+  .care-link{display:inline-flex; align-items:center; gap:6px; font-size:14.5px; font-weight:700; color:var(--navy);}
+  .care-link span{transition:transform .15s;}
+  .care-link:hover span{transform:translateX(3px);}
+  .care-banner-graphic{flex:1; display:flex; justify-content:center;}
+  .care-banner-graphic svg{width:100%; max-width:240px; height:auto;}
+
+  .doc-stack{flex:1.3; display:flex; flex-direction:column; align-items:center; gap:20px; min-width:300px;}
+  .doc-stack-cards{position:relative; width:420px; max-width:100%; height:270px;}
+  @media(max-width:860px){.doc-stack-cards{width:100%; max-width:380px; height:244px;}}
+  .doc-card{
+    position:absolute; inset:0; border-radius:8px; overflow:hidden; background:#fff;
+    border:1px solid var(--line); box-shadow:0 10px 24px -8px rgba(16,24,32,0.22);
+    transition:transform .4s cubic-bezier(.22,.68,0,1.02), opacity .3s ease, z-index 0s;
+  }
+  .doc-card img{width:100%; height:100%; object-fit:cover;}
+  .doc-card.no-img{display:flex; align-items:center; justify-content:center; background:linear-gradient(135deg, var(--blue-pale), var(--bg-2));}
+  .doc-card.no-img img{display:none;}
+  .doc-card.no-img::after{content:'문서 준비중'; font-family:'IBM Plex Mono',monospace; font-size:11.5px; color:var(--ink-dim);}
+  /* stack positions: pos0 = front */
+  .doc-card[data-pos="0"]{transform:translate(0,0) rotate(0deg); z-index:3; opacity:1;}
+  .doc-card[data-pos="1"]{transform:translate(24px,14px) rotate(3deg); z-index:2; opacity:0.9;}
+  .doc-card[data-pos="2"]{transform:translate(44px,26px) rotate(6deg); z-index:1; opacity:0.75;}
+  .doc-stack-arrows{display:flex; gap:12px;}
+  .doc-arrow{
+    width:38px; height:38px; border-radius:50%; border:1px solid var(--line); background:#fff;
+    color:var(--ink); font-size:19px; cursor:pointer; display:flex; align-items:center; justify-content:center;
+  }
+  .doc-arrow:hover{border-color:var(--blue); color:var(--blue);}
+
+  .care-sub{text-align:center; margin-bottom:40px;}
+  .care-sub h4{font-size:20px; font-weight:800; margin-bottom:10px;}
+  .care-sub h4 span{color:var(--blue); background:var(--blue-pale); padding:2px 8px; border-radius:4px;}
+  .care-sub p{color:var(--ink-dim); font-size:14.5px;}
+
+  .care-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:32px; text-align:center;}
+  @media(max-width:760px){.care-grid{grid-template-columns:1fr; gap:36px;}}
+  .care-icon{
+    width:96px; height:96px; border-radius:50%; background:var(--blue-pale); color:var(--blue);
+    display:flex; align-items:center; justify-content:center; margin:0 auto 22px;
+  }
+  .care-icon svg{width:40px; height:40px;}
+  .care-card h5{font-size:16px; font-weight:700; margin-bottom:8px;}
+  .care-card p{color:var(--ink-dim); font-size:13.8px; max-width:240px; margin:0 auto;}
+
+  /* ---------- SAFETY-old (unused, kept for reference) ---------- */
+
+  /* ---------- PARTNERS ---------- */
+  .partners-head{text-align:center; margin-bottom:40px;}
+  .partner-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:14px;}
+  @media(max-width:760px){.partner-grid{grid-template-columns:repeat(2,1fr);}}
+  .partner-slot{
+    aspect-ratio:16/9;
+    display:flex; align-items:center; justify-content:center; padding:8px;
+  }
+  .partner-slot img{max-width:100%; max-height:100%; object-fit:contain;}
+
+  /* ---------- CONTACT ---------- */
+  .contact{background:var(--navy); color:#fff;}
+  .contact .eyebrow-sm{color:#8FC1E0;}
+  .contact-inner{display:grid; grid-template-columns:0.9fr 1.1fr; gap:60px;}
+  @media(max-width:900px){.contact-inner{grid-template-columns:1fr;}}
+  .contact-info h2{color:#fff;}
+  .contact-info p{color:#B9CCD9; font-size:15px; margin-bottom:28px;}
+  .contact-line{display:flex; gap:14px; margin-bottom:16px; font-size:15px;}
+  .contact-line b{color:#8FC1E0; font-family:'IBM Plex Mono',monospace; font-size:12px; min-width:64px; font-weight:600;}
+  form{display:flex; flex-direction:column; gap:14px;}
+  .form-row{display:grid; grid-template-columns:1fr 1fr; gap:14px;}
+  @media(max-width:560px){.form-row{grid-template-columns:1fr;}}
+  input, select, textarea{
+    background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.18); color:#fff;
+    padding:13px 14px; border-radius:4px; font-family:inherit; font-size:14.5px;
+  }
+  input::placeholder, textarea::placeholder{color:#8CA0AE;}
+  input:focus, select:focus, textarea:focus{outline:none; border-color:#8FC1E0;}
+  textarea{resize:vertical; min-height:110px;}
+  select option{color:#101820;}
+  .submit-btn{background:#fff; color:var(--navy); border:none; padding:15px; font-weight:700; font-size:15px; border-radius:4px; cursor:pointer;}
+  .submit-btn:hover{background:#EAF2F7;}
+  .form-note{font-size:12.5px; color:#8CA0AE;}
+
+  footer{border-top:1px solid var(--line); padding:32px 0; text-align:center; color:var(--ink-dim); font-size:13px;}
+
+  .reveal{opacity:0; transform:translateY(16px); transition:opacity .5s ease, transform .5s ease;}
+  .reveal.in{opacity:1; transform:none;}
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation:none !important; transition:none !important;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="nav">
+    <div class="brand">
+      <span class="brand-logo-slot"><img src="images/logo.png" alt="" onerror="this.style.display='none'"></span>
+      클린드론솔루션
+    </div>
+    <nav class="navlinks">
+      <a href="#services">서비스</a>
+      <a href="#safety">안전관리</a>
+      <a href="#contact">문의</a>
+    </nav>
+    <a href="#contact" class="nav-cta">견적 문의</a>
+  </div>
+</header>
+
+<section class="hero" id="heroSlider">
+  <div class="hero-media">
+    <div class="hero-slide active" data-slide="0">
+      <video src="videos/hero-1.mp4" autoplay muted loop playsinline></video>
+      <div class="slide-fallback"><span>VIDEO SLOT 1 · videos/hero-1.mp4</span></div>
+    </div>
+    <div class="hero-slide" data-slide="1">
+      <video src="videos/hero-2.mp4" autoplay muted loop playsinline></video>
+      <div class="slide-fallback"><span>VIDEO SLOT 2 · videos/hero-2.mp4</span></div>
+    </div>
+  </div>
+  <div class="hero-overlay"></div>
+
+  <div class="hero-controls">
+    <div class="hero-arrows">
+      <button class="hero-arrow" id="heroPrev" aria-label="이전 영상">‹</button>
+      <button class="hero-arrow" id="heroNext" aria-label="다음 영상">›</button>
+    </div>
+    <div class="hero-dots" id="heroDots">
+      <button class="hero-dot active" data-dot="0" aria-label="1번 영상"></button>
+      <button class="hero-dot" data-dot="1" aria-label="2번 영상"></button>
+    </div>
+  </div>
+
+  <div class="wrap hero-inner">
+    <div class="eyebrow">문화재청 실적 보유 · 산업안전 전문 인력 운용</div>
+    <h1>고소·특수현장을 위한<br><em>정밀 드론 청소·촬영</em> 솔루션</h1>
+    <p>사람이 닿기 어려운 문화재 처마와 고층·특수 구조물을 드론으로 정밀 촬영하고 세척합니다. 안전관리 전문 인력이 전 과정을 직접 검토하고 문서화합니다.</p>
+    <div class="btn-row">
+      <a href="#contact" class="btn btn-primary">견적 문의하기</a>
+      <a href="#services" class="btn btn-ghost">서비스 보기</a>
+    </div>
+    <div class="stat-row">
+      <div><div class="stat-num">4</div><div class="stat-label">핵심 서비스 라인</div></div>
+      <div><div class="stat-num">100%</div><div class="stat-label">작업 전 안전문서 발급</div></div>
+      <div><div class="stat-num">전국</div><div class="stat-label">전국 현장 대응 가능</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="partners">
+  <div class="wrap">
+    <div class="partners-head reveal">
+      <div class="eyebrow-sm">Partners</div>
+      <h2 style="font-size:24px; font-weight:800;">함께한 기관 · 현장</h2>
+    </div>
+    <div class="partner-grid reveal">
+      <div class="partner-slot"><img src="logos/partner-1.png" alt="협력 기관 로고 1"></div>
+      <div class="partner-slot"><img src="logos/partner-2.png" alt="협력 기관 로고 2"></div>
+      <div class="partner-slot"><img src="logos/partner-3.png" alt="협력 기관 로고 3"></div>
+      <div class="partner-slot"><img src="logos/partner-4.png" alt="협력 기관 로고 4"></div>
+    </div>
+  </div>
+</section>
+
+<section id="services">
+  <div class="wrap">
+    <div class="section-head reveal" style="text-align:center; max-width:100%; margin-bottom:36px;">
+      <div class="eyebrow-sm">Services</div>
+      <h2>드론청소 서비스</h2>
+    </div>
+
+    <div class="svc-tabs" id="svcTabs">
+      <button class="svc-tab active" data-idx="0">
+        <span class="svc-tab-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M5 19 L12 5 L19 19 Z" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="14" r="2.4" stroke="currentColor" stroke-width="1.8"/></svg></span>
+        <span class="svc-tab-label">고층 외벽청소</span>
+      </button>
+      <button class="svc-tab" data-idx="1">
+        <span class="svc-tab-icon"><svg viewBox="0 0 24 24" fill="none"><rect x="5" y="5" width="14" height="14" stroke="currentColor" stroke-width="1.8"/><path d="M5 12 H19 M12 5 V19" stroke="currentColor" stroke-width="1.3"/></svg></span>
+        <span class="svc-tab-label">문화재 특수작업</span>
+      </button>
+      <button class="svc-tab" data-idx="2">
+        <span class="svc-tab-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M5 19 H19 M7 19 V10 L17 10 V19" stroke="currentColor" stroke-width="1.8"/></svg></span>
+        <span class="svc-tab-label">태양광 패널</span>
+      </button>
+      <button class="svc-tab" data-idx="3">
+        <span class="svc-tab-icon"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="7" stroke="currentColor" stroke-width="1.8"/><path d="M12 8 V12 L14.4 14.4" stroke="currentColor" stroke-width="1.8"/></svg></span>
+        <span class="svc-tab-label">정기 촬영 리포트</span>
+      </button>
+    </div>
+
+    <div class="svc-showcase">
+      <button class="svc-arrow svc-arrow-left" id="svcPrev" aria-label="이전 서비스">‹</button>
+
+      <div class="svc-panel-wrap">
+        <div class="svc-panel active" data-panel="0">
+          <div class="svc-photo"><img src="images/service-1.jpg" alt="고층 외벽청소" onerror="this.parentElement.classList.add('no-img')"></div>
+          <div class="svc-text">
+            <h3>고층 외벽청소</h3>
+            <p>비계 설치 없이 드론으로 고층 건물 외벽을 정밀하게 세척합니다. 사람이 접근하기 어려운 구간도 안전하게 작업합니다.</p>
+            <div class="svc-tags"><span>#고층외벽</span><span>#드론청소</span><span>#무비계작업</span></div>
+          </div>
+        </div>
+        <div class="svc-panel" data-panel="1">
+          <div class="svc-photo"><img src="images/service-2.jpg" alt="문화재 특수작업" onerror="this.parentElement.classList.add('no-img')"></div>
+          <div class="svc-text">
+            <h3>문화재 특수작업</h3>
+            <p>문화재·전통건축의 처마와 지붕부 낙하물을 비접촉 방식으로 안전하게 제거합니다. 문화재 손상 위험 없이 정밀 작업이 가능합니다.</p>
+            <div class="svc-tags"><span>#문화재</span><span>#특수현장</span><span>#비접촉작업</span></div>
+          </div>
+        </div>
+        <div class="svc-panel" data-panel="2">
+          <div class="svc-photo"><img src="images/service-3.jpg" alt="태양광 패널" onerror="this.parentElement.classList.add('no-img')"></div>
+          <div class="svc-text">
+            <h3>태양광 패널</h3>
+            <p>발전 효율을 떨어뜨리는 패널 오염을 정기적으로 관리해 발전량 손실을 최소화합니다.</p>
+            <div class="svc-tags"><span>#태양광</span><span>#패널세척</span><span>#발전효율</span></div>
+          </div>
+        </div>
+        <div class="svc-panel" data-panel="3">
+          <div class="svc-photo"><img src="images/service-4.jpg" alt="정기 촬영 리포트" onerror="this.parentElement.classList.add('no-img')"></div>
+          <div class="svc-text">
+            <h3>정기 촬영 리포트</h3>
+            <p>드론 촬영을 기반으로 작업 전후 비교 사진과 리포트를 정기적으로 제공합니다.</p>
+            <div class="svc-tags"><span>#촬영리포트</span><span>#정기점검</span><span>#드론촬영</span></div>
+          </div>
+        </div>
+      </div>
+
+      <button class="svc-arrow svc-arrow-right" id="svcNext" aria-label="다음 서비스">›</button>
+    </div>
+  </div>
+</section>
+
+<section class="safety" id="safety">
+  <div class="wrap">
+    <div class="section-head reveal" style="text-align:center; max-width:100%; margin-bottom:32px;">
+      <div class="eyebrow-sm">Safety First</div>
+      <h2>현장을 먼저 확인하고, 안전을 문서로 남깁니다</h2>
+    </div>
+
+    <div class="care-banner reveal">
+      <div class="care-banner-text">
+        <h3>현장 방문 후, <u>안전작업계획서</u>를 별도로 발송합니다</h3>
+        <p>작업 시작 전 담당자가 직접 현장을 방문해 위험 요소를 확인하고, 그 내용을 반영한 안전작업계획서를 고객에게 별도로 전달합니다. 산업안전 전문 자격 취득 과정에 있는 인력이 전 과정을 직접 검토합니다.</p>
+        <a href="#contact" class="care-link">안전관리 프로세스 문의하기 <span>→</span></a>
+      </div>
+      <div class="doc-stack" aria-hidden="false">
+        <div class="doc-stack-cards" id="docStackCards">
+          <div class="doc-card" data-src="1">
+            <img src="images/safety-doc-1.jpg" alt="안전작업계획서 1" onerror="this.parentElement.classList.add('no-img')">
+          </div>
+          <div class="doc-card" data-src="2">
+            <img src="images/safety-doc-2.jpg" alt="안전작업계획서 2" onerror="this.parentElement.classList.add('no-img')">
+          </div>
+          <div class="doc-card" data-src="3">
+            <img src="images/safety-doc-3.jpg" alt="안전작업계획서 3" onerror="this.parentElement.classList.add('no-img')">
+          </div>
+        </div>
+        <div class="doc-stack-arrows">
+          <button class="doc-arrow" id="docPrev" aria-label="이전 문서">‹</button>
+          <button class="doc-arrow" id="docNext" aria-label="다음 문서">›</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="care-sub reveal">
+      <h4>클린드론솔루션만의 차별화 서비스, <span>SAFETY CARE</span></h4>
+      <p>작업 전 확인부터 문서화까지, 세 단계로 안전을 관리합니다.</p>
+    </div>
+
+    <div class="care-grid">
+      <div class="care-card reveal">
+        <div class="care-icon">
+          <svg viewBox="0 0 40 40" fill="none"><circle cx="17" cy="17" r="10" stroke="currentColor" stroke-width="1.8"/><path d="M25 25 L33 33" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M12 17 L16 21 L23 13" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <h5>현장 사전 답사</h5>
+        <p>작업 전 담당자가 직접 현장을 방문해 위험 요소를 확인합니다.</p>
+      </div>
+      <div class="care-card reveal">
+        <div class="care-icon">
+          <svg viewBox="0 0 40 40" fill="none"><rect x="10" y="6" width="20" height="28" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M15 14 H25 M15 20 H25 M15 26 H21" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+        </div>
+        <h5>안전작업계획서 발송</h5>
+        <p>현장 특성을 반영한 안전작업계획서를 작업 전 별도로 전달합니다.</p>
+      </div>
+      <div class="care-card reveal">
+        <div class="care-icon">
+          <svg viewBox="0 0 40 40" fill="none"><path d="M20 6 L32 11 V19 C32 27 27 32 20 34 C13 32 8 27 8 19 V11 Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M14 19 L18 23 L26 14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <h5>자격 · 보험 상시 확인</h5>
+        <p>드론 조종 자격과 작업 보험을 항상 최신 상태로 유지·확인합니다.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="diff">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow-sm">Why CleanDrone</div>
+      <h2>일반 외벽청소 업체와 다른 세 가지</h2>
+    </div>
+    <div class="diff-grid">
+      <div class="diff-card reveal">
+        <div class="diff-num">01</div>
+        <h3>문화재·특수현장 실적</h3>
+        <p>문화재청 나라장터를 통한 궁궐 낙하물 제거 작업 등, 일반 청소업체는 접근하기 어려운 문화재·고층 특수현장 실적을 보유하고 있습니다.</p>
+      </div>
+      <div class="diff-card reveal">
+        <div class="diff-num">02</div>
+        <h3>안전관리 공개 시스템</h3>
+        <p>고소작업에 필수적인 안전작업허가서, 안전보건관리계획서를 현장마다 작성·공개하고, 산업안전 전문 자격 취득 과정에 있는 인력이 직접 관리합니다.</p>
+      </div>
+      <div class="diff-card reveal">
+        <div class="diff-num">03</div>
+        <h3>드론 촬영 리포트</h3>
+        <p>작업 전후 드론 촬영 사진을 비교 정리한 리포트를 발급합니다. 청소 결과를 눈으로 직접 확인하실 수 있습니다.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="contact" id="contact">
+  <div class="wrap contact-inner">
+    <div class="contact-info reveal">
+      <div class="eyebrow-sm">Contact</div>
+      <h2 style="font-size:clamp(22px,2.6vw,30px); font-weight:800; margin-bottom:16px;">작업 문의</h2>
+      <p>현장 상황을 알려주시면 24시간 내로 회신드립니다.</p>
+      <div class="contact-line"><b>TEL</b>1554-6225</div>
+      <div class="contact-line"><b>EMAIL</b>hs2570700@naver.com</div>
+      <div class="contact-line"><b>지역</b>전국 출장 가능</div>
+    </div>
+    <form class="reveal" id="quoteForm">
+      <div class="form-row">
+        <input type="text" name="name" placeholder="이름 / 담당자명" required>
+        <input type="tel" name="phone" placeholder="연락처" required>
+      </div>
+      <div class="form-row">
+        <select name="type">
+          <option value="">작업 유형 선택</option>
+          <option>고층 외벽청소</option>
+          <option>문화재 특수청소</option>
+          <option>태양광 패널 세척</option>
+          <option>정기 촬영 · 리포트</option>
+          <option>기타</option>
+        </select>
+        <input type="text" name="location" placeholder="작업 현장 위치">
+      </div>
+      <textarea name="message" placeholder="현장 규모, 희망 일정 등을 자유롭게 남겨주세요."></textarea>
+      <input type="hidden" name="access_key" value="75d8a793-6e67-458a-9f27-370b0510a17c">
+      <input type="hidden" name="to" value="lhs2570700@naver.com">
+      <input type="hidden" name="subject" value="클린드론솔루션 홈페이지 문의">
+      <input type="hidden" name="from_name" value="클린드론솔루션 홈페이지">
+      <button type="submit" class="submit-btn">문의 보내기</button>
+      <p class="form-note" id="formNote">* lhs2570700@naver.com으로 문의 내용이 바로 발송됩니다.</p>
+    </form>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">클린드론솔루션 · 전국 출장 가능 · © 2026</div>
+</footer>
+
+<script>
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} });
+  }, {threshold:0.12});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+  const quoteForm = document.getElementById('quoteForm');
+  const formNote = document.getElementById('formNote');
+  quoteForm.addEventListener('submit', async function(e){
+    e.preventDefault();
+    const key = quoteForm.querySelector('input[name="access_key"]').value;
+    if (!key || key === 'YOUR_WEB3FORMS_ACCESS_KEY') {
+      alert('아직 access_key가 설정되지 않았어요. web3forms.com에서 hs2570700@naver.com으로 무료 발급받은 키를 넣어주세요.');
+      return;
+    }
+    const submitBtn = quoteForm.querySelector('.submit-btn');
+    submitBtn.disabled = true;
+    submitBtn.textContent = '전송 중...';
+    try{
+      const res = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify(Object.fromEntries(new FormData(quoteForm)))
+      });
+      const data = await res.json();
+      if (data.success) {
+        formNote.textContent = '문의가 정상적으로 전송되었습니다. 빠르게 회신드릴게요.';
+        quoteForm.reset();
+      } else {
+        formNote.textContent = '전송에 실패했습니다. 잠시 후 다시 시도해주세요.';
+      }
+    } catch(err){
+      formNote.textContent = '전송 중 오류가 발생했습니다. 전화나 이메일로 문의해주세요.';
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.textContent = '문의 보내기';
+    }
+  });
+
+  // ---- Hero video slider (3 slides, auto-cycle every 6s, loops) ----
+  (function(){
+    const slides = document.querySelectorAll('.hero-slide');
+    const dots = document.querySelectorAll('.hero-dot');
+    const prevBtn = document.getElementById('heroPrev');
+    const nextBtn = document.getElementById('heroNext');
+    let current = 0;
+    let timer = null;
+    const INTERVAL = 6000; // 전환 간격(ms) — 필요시 조절
+
+    function goTo(index){
+      slides[current].classList.remove('active');
+      dots[current].classList.remove('active');
+      current = (index + slides.length) % slides.length;
+      slides[current].classList.add('active');
+      dots[current].classList.add('active');
+      const vid = slides[current].querySelector('video');
+      if (vid) { vid.currentTime = 0; vid.play().catch(()=>{}); }
+    }
+
+    function startAuto(){
+      clearInterval(timer);
+      timer = setInterval(()=> goTo(current + 1), INTERVAL);
+    }
+
+    dots.forEach(dot=>{
+      dot.addEventListener('click', ()=>{
+        goTo(parseInt(dot.dataset.dot, 10));
+        startAuto();
+      });
+    });
+    nextBtn.addEventListener('click', ()=>{ goTo(current + 1); startAuto(); });
+    prevBtn.addEventListener('click', ()=>{ goTo(current - 1); startAuto(); });
+
+    startAuto();
+  })();
+  // ---- Service showcase (tabs + arrows, 4 panels) ----
+  (function(){
+    const tabs = document.querySelectorAll('.svc-tab');
+    const panels = document.querySelectorAll('.svc-panel');
+    const prevBtn = document.getElementById('svcPrev');
+    const nextBtn = document.getElementById('svcNext');
+    let idx = 0;
+
+    function show(i){
+      idx = (i + panels.length) % panels.length;
+      tabs.forEach(t => t.classList.toggle('active', parseInt(t.dataset.idx,10) === idx));
+      panels.forEach(p => p.classList.toggle('active', parseInt(p.dataset.panel,10) === idx));
+    }
+    tabs.forEach(t => t.addEventListener('click', () => show(parseInt(t.dataset.idx,10))));
+    prevBtn.addEventListener('click', () => show(idx - 1));
+    nextBtn.addEventListener('click', () => show(idx + 1));
+  })();
+  // ---- Safety doc stack (3 overlapping photos, cycle with arrows) ----
+  (function(){
+    const cards = Array.from(document.querySelectorAll('#docStackCards .doc-card'));
+    if(!cards.length) return;
+    let order = cards.map((_, i) => i); // order[0] = index of front card
+
+    function layout(){
+      order.forEach((cardIdx, pos) => {
+        cards[cardIdx].setAttribute('data-pos', pos);
+      });
+    }
+    layout();
+
+    document.getElementById('docNext').addEventListener('click', () => {
+      order.push(order.shift()); // front goes to back
+      layout();
+    });
+    document.getElementById('docPrev').addEventListener('click', () => {
+      order.unshift(order.pop()); // back comes to front
+      layout();
+    });
+  })();
+</script>
+
+</body>
+</html>
